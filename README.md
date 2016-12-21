@@ -23,13 +23,13 @@ There is no way to remove that seam with programmatic way. So modifying that out
 
 ### Order in Layer
 
-You may also need to modify original shader code to support correct sorting order of the spine image.
+You may also need to modify original shader code which can be found on [here](https://github.com/keijiro/unity-alphamask/blob/master/Assets/SpriteWithMask.shader) to support correct sorting order of the spine image when it is rendered on run time.
 
 <p align="center">
   <img src="./images/sorting-layer.png" >
 </p>
 
-To do sort of layers it needs to add _"Transparent"_ value to _"Queue"_ key within Tags.
+To do sort of layers it just needs to add _"Transparent"_ value to _"Queue"_ key within Tags.
 
 ``` cpp
 Shader "Custom/SpriteWithMask"
@@ -52,6 +52,8 @@ Shader "Custom/SpriteWithMask"
 		Pass {
 			CGPROGRAM
 ```
+
+> You don't need to apply "Spine/Skeleton" shader for a spine image. Any 2D sprite supported shader may work fine with spine's skeleton animation.
 
 ## Conclusion
 
