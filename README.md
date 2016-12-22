@@ -3,15 +3,15 @@
 
 ## Spine with Alpha-Mask
 
-As mentioned on [this post](https://github.com/keijiro/unity-alphamask), you can also recude [Spine](https://github.com/EsotericSoftware/spine-runtimes)'s atlas image size up to 1/4 compared with RGBA32 format.
+Usually an atlas images which are exported from spine editor have large file size to run on mobile device. An image size of 1024x1024 with RGBA32 takes 4M.
 
-> Note that RGBA32 format size of 1024x1024 image takes 4M.
+As mentioned on [this post](https://github.com/keijiro/unity-alphamask), you can also dramatically recude [Spine](https://github.com/EsotericSoftware/spine-runtimes)'s atlas image size up to 1/4 compared with RGBA32 format.
 
 So it takes less loading time and makes a user feel the game runs smoothly.
 
-Some glitch (or  noise) can be shown when alpha-mask is used is barely noticed if you corretly use alpha-mask  so it can be enoughly ignored in run time.
+But there are a few issues you should take care.
 
-### Edge
+### Edge problem
 
 A seam (or outline) can be found if the edge of a sprite image in the atlas image has translucent outline.
 
@@ -19,7 +19,10 @@ A seam (or outline) can be found if the edge of a sprite image in the atlas imag
   <img src="./images/edge.png" >
 </p>
 
-There is no way to remove that seam with programmatic way. So modifying that outlines found in the atlas image as not too much translucent with any image processing tool such as Photoshop will get better output.
+> Note that the left side image is  spine image applied alpha-masked shader and the right side image is spine atlas image
+
+It is hard to remove that seam with programmatic way. So modify that outlines found in the atlas image  not to have too much translucent with any image processing tool such as Photoshop. You will get better output.
+
 
 ### Order in Layer
 
@@ -53,11 +56,16 @@ Shader "Custom/SpriteWithMask"
 			CGPROGRAM
 ```
 
-> You don't need to apply "Spine/Skeleton" shader for a spine image. Any 2D sprite supported shader may work fine with spine's skeleton animation.
+> You don't need to apply "Spine/Skeleton", a deafult shader of spine runtime. Any 2D supported sprite  shader may work fine with spine's skeleton animation.
 
 ## Conclusion
 
-There are a few other texture compression techniques which reduce bpp of the image.
+There also other texture compression techniques which reduce bpp of the image.
+
+* [ChromaPak](https://github.com/keijiro/ChromaPack)
+* [YCCA Subsampling for Unity](https://github.com/n-yoda/unity-ycca-subsampling#ycca-subsampling-for-unity) - Most same as ChromaPak but supports alpha.
+
+The differences of alpha-masked shader compared with other compressions is that it is mobile friendly(ETC for Android and PVRTC for iOS) and has better look for a character image normally has various range of pixels consist of the  image. Thus it is simple!
 
 
 (C) 2016 Kim Hyoun Woo
